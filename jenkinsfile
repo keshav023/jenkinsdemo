@@ -1,69 +1,32 @@
-pipeline{
-	agent any
-	environment {
-		name ='Keshav'
-	}
-	parameterrs {
-		string(name: 'person' , defaultValue: 'Jitu Gupta' , description: "who are you?")
-		booleanParam(name: "isMale" , defaultValue: true, description: "")
-		choice(name: 'City' , choice: ['Vadodara', 'pune'], description: "")
-	}
-	
-	stage{
-		stage('Run A command'){
-			steps{
-				sh ...
-				ls
-				date
-				pwd
-				cal 2022
- 				...
-			}
-		}
-		stage('enviroment variable'){
-			environment{
-				username='myusername'
-			}
-			steps{
-				sh 'echo "${BUILD_ID}"'
-				sh 'echo "${name}"'
-				sh 'echo "${username}"'
-			}
-		}
-		stage('parameters'){
-			steps{
-				echo 'deplopy on test'
-				sh 'echo "${name}"'
-				sh 'echo "${person}"'
-			}
-		}
-		stage('continue?'){
-			input{
-				message "should we continue"
-				ok "Yes we should"		
-			}
+pipeline {
+    agent any
 
-
-			step{
-				echo 'Deploy on prod'
-			}
-		}
-		stage('Deploy on prod'){
-			step{
-				echo 'deplopy on prod'
-
-			}
-		}
-	}
-	post{
-		always{
-			echo 'I will always say hello again'
-			}
-			failure{
-				echo 'Failure'
-			}
-			success{
-				echo 'Sucess'
-			}
-		}
+    stages {
+        stage('build') {
+            steps {
+                
+               sh '''
+               ls
+               pwd
+               date
+              
+               '''
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Doing Testing'
+            }
+        }
+        stage('Deploy in test') {
+            steps {
+                echo 'Testing enviroment'
+            }
+        }
+        stage('Deploy in Prod') {
+            steps {
+                echo 'Deploying in production envrionment'
+            }
+        }
+    }
 }
